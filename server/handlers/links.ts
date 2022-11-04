@@ -31,7 +31,7 @@ export const get: Handler = async (req, res) => {
     query.link.total(match, { search })
   ]);
 
-  const data = links.map(utils.sanitize.link);
+  const data = links.map(z => utils.sanitize.link(z, req.protocol));
 
   return res.send({
     total,
@@ -78,7 +78,7 @@ export const create: Handler = async (req: CreateLinkReq, res) => {
   // if "reuse" is true, try to return
   // the existent URL without creating one
   if (queries[3]) {
-    return res.json(utils.sanitize.link(queries[3]));
+    return res.json(utils.sanitize.link(queries[3], req.protocol));
   }
 
   // Check if custom link already exists
@@ -104,7 +104,9 @@ export const create: Handler = async (req: CreateLinkReq, res) => {
 
   return res
     .status(201)
-    .send(utils.sanitize.link({ ...link, domain: domain?.address }));
+    .send(
+      utils.sanitize.link({ ...link, domain: domain?.address }, req.protocol)
+    );
 };
 
 export const edit: Handler = async (req, res) => {
@@ -156,7 +158,9 @@ export const edit: Handler = async (req, res) => {
     }
   );
 
-  return res.status(200).send(utils.sanitize.link({ ...link, ...updatedLink }));
+  return res
+    .status(200)
+    .send(utils.sanitize.link({ ...link, ...updatedLink }, req.protocol));
 };
 
 export const remove: Handler = async (req, res) => {
@@ -421,6 +425,6 @@ export const stats: Handler = async (req, res) => {
 
   return res.status(200).send({
     ...stats,
-    ...utils.sanitize.link(link)
+    ...utils.sanitize.link(link, req.protocol)
   });
 };

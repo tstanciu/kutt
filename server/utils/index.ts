@@ -55,10 +55,14 @@ export const addProtocol = (url: string): string => {
   return hasProtocol ? url : `http://${url}`;
 };
 
-export const generateShortLink = (id: string, domain?: string): string => {
-  const protocol =
-    env.CUSTOM_DOMAIN_USE_HTTPS || !domain ? "https://" : "http://";
-  return `${protocol}${domain || env.DEFAULT_DOMAIN}${env.BASE_PATH}/${id}`;
+export const generateShortLink = (
+  id: string,
+  domain?: string,
+  protocol = null
+): string => {
+  const proto =
+    protocol || (env.CUSTOM_DOMAIN_USE_HTTPS || !domain ? "https" : "http");
+  return `${proto}://${domain || env.DEFAULT_DOMAIN}${env.BASE_PATH}/${id}`;
 };
 
 export const getRedisKey = {
@@ -153,7 +157,7 @@ export const sanitize = {
     user_id: undefined,
     banned_by_id: undefined
   }),
-  link: (link: LinkJoinedDomain): LinkSanitized => ({
+  link: (link: LinkJoinedDomain, protocol = null): LinkSanitized => ({
     ...link,
     banned_by_id: undefined,
     domain_id: undefined,
@@ -161,7 +165,7 @@ export const sanitize = {
     uuid: undefined,
     id: link.uuid,
     password: !!link.password,
-    link: generateShortLink(link.address, link.domain)
+    link: generateShortLink(link.address, link.domain, protocol)
   })
 };
 
