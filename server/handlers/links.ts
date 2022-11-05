@@ -6,6 +6,7 @@ import isbot from "isbot";
 import next from "next";
 import URL from "url";
 import dns from "dns";
+import { IncomingMessage } from "http";
 
 import * as validators from "./validators";
 import { CreateLinkReq } from "./types";
@@ -17,6 +18,9 @@ import queue from "../queues";
 import env from "../env";
 
 const dnsLookup = promisify(dns.lookup);
+
+const getDomain = (req: IncomingMessage) =>
+  (req.headers["x-forwarded-host"] as string) || req.headers["host"];
 
 export const get: Handler = async (req, res) => {
   const { limit, skip, search, all } = req.query;
@@ -31,7 +35,10 @@ export const get: Handler = async (req, res) => {
     query.link.total(match, { search })
   ]);
 
-  const data = links.map(z => utils.sanitize.link(z, req.protocol));
+  const domain = getDomain(req);
+  const data = links.map(z =>
+    utils.sanitize.link({ ...z, domain: z.domain || domain }, req.protocol)
+  );
 
   return res.send({
     total,
@@ -102,10 +109,14 @@ export const create: Handler = async (req: CreateLinkReq, res) => {
     query.ip.add(req.realIP);
   }
 
+  const domainOfRequest = getDomain(req);
   return res
     .status(201)
     .send(
-      utils.sanitize.link({ ...link, domain: domain?.address }, req.protocol)
+      utils.sanitize.link(
+        { ...link, domain: domain?.address || domainOfRequest },
+        req.protocol
+      )
     );
 };
 
@@ -158,9 +169,13 @@ export const edit: Handler = async (req, res) => {
     }
   );
 
-  return res
-    .status(200)
-    .send(utils.sanitize.link({ ...link, ...updatedLink }, req.protocol));
+  const domain = getDomain(req);
+  const resultLink = {
+    ...link,
+    ...updatedLink,
+    domain: link["domain"] || domain
+  };
+  return res.status(200).send(utils.sanitize.link(resultLink, req.protocol));
 };
 
 export const remove: Handler = async (req, res) => {
@@ -423,8 +438,10 @@ export const stats: Handler = async (req, res) => {
     throw new CustomError("Could not get the short link stats.");
   }
 
+  const domain = getDomain(req);
+  const resultLink = { ...link, domain: link["domain"] || domain };
   return res.status(200).send({
     ...stats,
-    ...utils.sanitize.link(link, req.protocol)
+    ...utils.sanitize.link(resultLink, req.protocol)
   });
 };
