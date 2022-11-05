@@ -40,6 +40,10 @@ const env = cleanEnv(process.env, {
   MAIL_PASSWORD: str(),
   REPORT_EMAIL: str({ default: "" }),
   CONTACT_EMAIL: str({ default: "" }),
+  GITHUB_URL: str({ default: "" }),
+  FOOTER_MESSAGE: str({ default: "" }),
+  FOOTER_LINK: str({ default: "" }),
+  FOOTER_LINK_TITLE: str({ default: "" }),
   SENTRY_PRIVATE_DSN: str({ default: "" }),
   SENTRY_PUBLIC_DSN: str({ default: "" }),
   BASE_PATH: str({ default: "" })

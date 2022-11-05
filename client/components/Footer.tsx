@@ -27,19 +27,30 @@ const Footer: FC = () => {
     >
       {!isAuthenticated && <ReCaptcha />}
       <Text fontSize={[12, 13]} py={2}>
-        Made with love by{" "}
-        <ALink href="//thedevs.network/" title="The Devs">
-          The Devs
-        </ALink>
-        .{" | "}
-        <ALink
-          href="https://github.com/thedevs-network/kutt"
-          title="GitHub"
-          target="_blank"
-        >
-          GitHub
-        </ALink>
-        {" | "}
+        {publicRuntimeConfig.FOOTER_MESSAGE && (
+          <>
+            {publicRuntimeConfig.FOOTER_MESSAGE}{" "}
+            <ALink
+              href={publicRuntimeConfig.FOOTER_LINK}
+              title={publicRuntimeConfig.FOOTER_LINK_TITLE}
+            >
+              {publicRuntimeConfig.FOOTER_LINK_TITLE}
+            </ALink>
+            {" | "}
+          </>
+        )}
+        {publicRuntimeConfig.GITHUB_URL && (
+          <>
+            <ALink
+              href={publicRuntimeConfig.GITHUB_URL}
+              title="GitHub"
+              target="_blank"
+            >
+              GitHub
+            </ALink>
+            {" | "}
+          </>
+        )}
         <Link href="/terms">
           <ALink href="/terms" title="Terms of Service">
             Terms of Service
@@ -56,13 +67,12 @@ const Footer: FC = () => {
             {" | "}
             <ALink
               href={`mailto:${publicRuntimeConfig.CONTACT_EMAIL}`}
-              title="Contact us"
+              title="Contact"
             >
-              Contact us
+              Contact
             </ALink>
           </>
         )}
-        .
       </Text>
     </ColCenter>
   );

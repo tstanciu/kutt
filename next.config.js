@@ -4,6 +4,10 @@ module.exports = {
   basePath: localEnv && localEnv.BASE_PATH,
   publicRuntimeConfig: {
     CONTACT_EMAIL: localEnv && localEnv.CONTACT_EMAIL,
+    GITHUB_URL: localEnv && localEnv.GITHUB_URL,
+    FOOTER_MESSAGE: localEnv && localEnv.FOOTER_MESSAGE,
+    FOOTER_LINK: localEnv && localEnv.FOOTER_LINK,
+    FOOTER_LINK_TITLE: localEnv && localEnv.FOOTER_LINK_TITLE,
     SITE_NAME: localEnv && localEnv.SITE_NAME,
     DEFAULT_DOMAIN: localEnv && localEnv.DEFAULT_DOMAIN,
     RECAPTCHA_SITE_KEY: localEnv && localEnv.RECAPTCHA_SITE_KEY,
