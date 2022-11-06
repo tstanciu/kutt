@@ -1,13 +1,9 @@
 #!/bin/bash
 
-echo "entrypoint.sh"
+echo "setenv.sh"
 # creates .env file for next.config.js
 for param in \
-    CONTACT_EMAIL \
-    GITHUB_URL \
-    FOOTER_MESSAGE \
-    FOOTER_LINK \
-    FOOTER_LINK_TITLE \
+    BASE_PATH \
     SITE_NAME \
     DEFAULT_DOMAIN \
     RECAPTCHA_SITE_KEY \
@@ -16,7 +12,11 @@ for param in \
     DISALLOW_ANONYMOUS_LINKS \
     DISALLOW_REGISTRATION \
     SENTRY_PUBLIC_DSN \
-    BASE_PATH \
+    CONTACT_EMAIL \
+    GITHUB_URL \
+    FOOTER_MESSAGE \
+    FOOTER_LINK \
+    FOOTER_LINK_TITLE \
     ; do
     if [ -n "${!param}" ] ; then
         echo "$param=\"${!param}\"" >>.env

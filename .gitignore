@@ -12,4 +12,5 @@ production-server
 dump.rdb
 docs/api/*.js
 docs/api/static
+build.sh
 buildx.sh

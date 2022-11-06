@@ -57,7 +57,10 @@ RUN npm install
 COPY . .
 
 # Give permission to run script
-RUN chmod +x ./wait-for-it.sh ./entrypoint.sh
+RUN chmod +x ./wait-for-it.sh ./setenv.sh
+
+# Create .env file
+RUN ./setenv.sh
 
 # Build files
 RUN npm run build
@@ -65,7 +68,7 @@ RUN npm run build
 EXPOSE 3000
 
 # Entrypoint
-ENTRYPOINT [ "./entrypoint.sh" ]
+#ENTRYPOINT [ "./setenv.sh" ]
 
 # Running the app
 CMD [ "npm", "start" ]
