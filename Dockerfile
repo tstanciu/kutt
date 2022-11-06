@@ -4,23 +4,68 @@ RUN apk add --update bash
 # Environment variables
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Setting working directory. 
+ARG BASE_PATH=""
+ENV BASE_PATH=${BASE_PATH}
+
+ARG SITE_NAME=""
+ENV SITE_NAME=${SITE_NAME}
+
+ARG DEFAULT_DOMAIN=""
+ENV DEFAULT_DOMAIN=${DEFAULT_DOMAIN}
+
+ARG RECAPTCHA_SITE_KEY=""
+ENV RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY}
+
+ARG GOOGLE_ANALYTICS=""
+ENV GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}
+
+ARG REPORT_EMAIL=""
+ENV REPORT_EMAIL=${REPORT_EMAIL}
+
+ARG DISALLOW_ANONYMOUS_LINKS=""
+ENV DISALLOW_ANONYMOUS_LINKS=${DISALLOW_ANONYMOUS_LINKS}
+
+ARG DISALLOW_REGISTRATION=""
+ENV DISALLOW_REGISTRATION=${DISALLOW_REGISTRATION}
+
+ARG SENTRY_PUBLIC_DSN=""
+ENV SENTRY_PUBLIC_DSN=${SENTRY_PUBLIC_DSN}
+
+ARG CONTACT_EMAIL=""
+ENV CONTACT_EMAIL=${CONTACT_EMAIL}
+
+ARG GITHUB_URL=""
+ENV GITHUB_URL=${GITHUB_URL}
+
+ARG FOOTER_MESSAGE=""
+ENV FOOTER_MESSAGE=${FOOTER_MESSAGE}
+
+ARG FOOTER_LINK=""
+ENV FOOTER_LINK=${FOOTER_LINK}
+
+ARG FOOTER_LINK_TITLE=""
+ENV FOOTER_LINK_TITLE=${FOOTER_LINK_TITLE}
+
+# Set working directory. 
 WORKDIR /usr/src/app
 
-# Installing dependencies
+# Install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copying source files
+# Copy source files
 COPY . .
 
 # Give permission to run script
-RUN chmod +x ./wait-for-it.sh
+RUN chmod +x ./wait-for-it.sh ./entrypoint.sh
 
 # Build files
 RUN npm run build
 
 EXPOSE 3000
+
+# Entrypoint
+ENTRYPOINT [ "./entrypoint.sh" ]
 
 # Running the app
 CMD [ "npm", "start" ]

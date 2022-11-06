@@ -4,6 +4,7 @@ const env = cleanEnv(process.env, {
   PORT: num({ default: 3000 }),
   SITE_NAME: str({ example: "Kutt" }),
   DEFAULT_DOMAIN: str({ example: "kutt.it" }),
+  BASE_PATH: str({ default: "" }),
   LINK_LENGTH: num({ default: 6 }),
   DB_HOST: str({ default: "localhost" }),
   DB_PORT: num({ default: 5432 }),
@@ -45,8 +46,7 @@ const env = cleanEnv(process.env, {
   FOOTER_LINK: str({ default: "" }),
   FOOTER_LINK_TITLE: str({ default: "" }),
   SENTRY_PRIVATE_DSN: str({ default: "" }),
-  SENTRY_PUBLIC_DSN: str({ default: "" }),
-  BASE_PATH: str({ default: "" })
+  SENTRY_PUBLIC_DSN: str({ default: "" })
 });
 
 export default env;
