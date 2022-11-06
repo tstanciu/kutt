@@ -18,6 +18,8 @@ const Footer: FC = () => {
     showRecaptcha();
   }, []);
 
+  const formatText = (text: String) => text.replaceAll("_", " ");
+
   return (
     <ColCenter
       as="footer"
@@ -29,12 +31,12 @@ const Footer: FC = () => {
       <Text fontSize={[12, 13]} py={2}>
         {publicRuntimeConfig.FOOTER_MESSAGE && (
           <>
-            {publicRuntimeConfig.FOOTER_MESSAGE}{" "}
+            {formatText(publicRuntimeConfig.FOOTER_MESSAGE)}{" "}
             <ALink
               href={publicRuntimeConfig.FOOTER_LINK}
-              title={publicRuntimeConfig.FOOTER_LINK_TITLE}
+              title={formatText(publicRuntimeConfig.FOOTER_LINK_TITLE)}
             >
-              {publicRuntimeConfig.FOOTER_LINK_TITLE}
+              {formatText(publicRuntimeConfig.FOOTER_LINK_TITLE)}
             </ALink>
             {" | "}
           </>
