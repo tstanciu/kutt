@@ -1,6 +1,8 @@
 FROM node:12-alpine
-
 RUN apk add --update bash
+
+# Environment variables
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Setting working directory. 
 WORKDIR /usr/src/app
