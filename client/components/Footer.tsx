@@ -18,7 +18,7 @@ const Footer: FC = () => {
     showRecaptcha();
   }, []);
 
-  const formatText = (text: String) => text.replaceAll("_", " ");
+  const formatText = (text: String) => text.replace(/_/g, " ");
 
   return (
     <ColCenter
